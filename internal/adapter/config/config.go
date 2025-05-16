@@ -50,7 +50,7 @@ func Load() *Config {
 		log.Printf("Failed to unmarshal config: " + err.Error())
 	}
 
-	log.Printf("Latest Config: %+v\n", _config)
+	log.Printf("Config: %+v\n", _config)
 
 	return &_config
 }

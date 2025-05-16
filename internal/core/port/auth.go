@@ -4,7 +4,7 @@ package port
 import (
 	"context"
 
-	"github.com/babyplug/go-clean-arch/internal/core/domain"
+	"clean-arch/internal/core/domain"
 )
 
 // TokenService is an interface for interacting with token-related business logic

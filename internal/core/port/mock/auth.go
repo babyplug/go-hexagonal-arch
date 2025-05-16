@@ -10,10 +10,10 @@
 package mock
 
 import (
+	domain "clean-arch/internal/core/domain"
 	context "context"
 	reflect "reflect"
 
-	domain "github.com/babyplug/go-clean-arch/internal/core/domain"
 	gomock "go.uber.org/mock/gomock"
 )
 

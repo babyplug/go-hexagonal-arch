@@ -1,0 +1,170 @@
+basePath: /v1
+definitions:
+  http.authResponse:
+    properties:
+      token:
+        example: v2.local.Gdh5kiOTyyaQ3_bNykYDeYHO21Jg2...
+        type: string
+    type: object
+  http.errorResponse:
+    properties:
+      messages:
+        example:
+        - Error message 1
+        - ' Error message 2'
+        items:
+          type: string
+        type: array
+      success:
+        example: false
+        type: boolean
+    type: object
+  http.loginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  http.meta:
+    properties:
+      page:
+        example: 10
+        type: integer
+      size:
+        example: 0
+        type: integer
+      total:
+        example: 100
+        type: integer
+      totalPage:
+        example: 10
+        type: integer
+    type: object
+  http.registerRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  http.userListResponse:
+    properties:
+      meta:
+        $ref: '#/definitions/http.meta'
+      users:
+        items:
+          $ref: '#/definitions/http.userResponse'
+        type: array
+    type: object
+  http.userResponse:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: poramin.lertudom@gmail.com
+    name: Babyplug
+  description: Type "Bearer" followed by a space and the access token.
+  license:
+    name: No License
+  termsOfService: http://swagger.io/terms/
+  title: Babyplug Clean Arch API
+  version: 0.1.0
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Logs in a registered user and returns an access token if the credentials
+        are valid.
+      parameters:
+      - description: Login request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Succesfully logged in
+          schema:
+            $ref: '#/definitions/http.authResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+        "401":
+          description: Unauthorized error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+      summary: Login and get an access token
+      tags:
+      - Users
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: List users with pagination
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Size
+        in: query
+        name: size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Users displayed
+          schema:
+            $ref: '#/definitions/http.userListResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: List users
+      tags:
+      - Users
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    type: basic
+swagger: "2.0"

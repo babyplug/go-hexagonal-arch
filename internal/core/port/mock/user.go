@@ -10,10 +10,10 @@
 package mock
 
 import (
+	domain "clean-arch/internal/core/domain"
 	context "context"
 	reflect "reflect"
 
-	domain "github.com/babyplug/go-clean-arch/internal/core/domain"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -115,18 +115,18 @@ func (mr *MockUserRepositoryMockRecorder) GetByID(ctx, id any) *gomock.Call {
 }
 
 // List mocks base method.
-func (m *MockUserRepository) List(ctx context.Context) ([]*domain.User, error) {
+func (m *MockUserRepository) List(ctx context.Context, page, size int64) ([]*domain.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", ctx)
+	ret := m.ctrl.Call(m, "List", ctx, page, size)
 	ret0, _ := ret[0].([]*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockUserRepositoryMockRecorder) List(ctx any) *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) List(ctx, page, size any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockUserRepository)(nil).List), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockUserRepository)(nil).List), ctx, page, size)
 }
 
 // Update mocks base method.
@@ -241,18 +241,18 @@ func (mr *MockUserServiceMockRecorder) GetByID(ctx, id any) *gomock.Call {
 }
 
 // List mocks base method.
-func (m *MockUserService) List(ctx context.Context) ([]*domain.User, error) {
+func (m *MockUserService) List(ctx context.Context, page, size int64) ([]*domain.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", ctx)
+	ret := m.ctrl.Call(m, "List", ctx, page, size)
 	ret0, _ := ret[0].([]*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockUserServiceMockRecorder) List(ctx any) *gomock.Call {
+func (mr *MockUserServiceMockRecorder) List(ctx, page, size any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockUserService)(nil).List), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockUserService)(nil).List), ctx, page, size)
 }
 
 // Update mocks base method.

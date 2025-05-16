@@ -3,9 +3,16 @@ package service
 import (
 	"context"
 	"errors"
+	"sync"
 
-	"github.com/babyplug/go-clean-arch/internal/core/port"
-	"github.com/babyplug/go-clean-arch/internal/core/util"
+	"clean-arch/internal/core/domain"
+	"clean-arch/internal/core/port"
+	"clean-arch/internal/core/util"
+)
+
+var (
+	auth     port.AuthService
+	authOnce sync.Once
 )
 
 type AuthService struct {
@@ -14,28 +21,37 @@ type AuthService struct {
 }
 
 func NewAuth(userRepo port.UserRepository, ts port.TokenService) port.AuthService {
-	return &AuthService{
-		repo: userRepo,
-		ts:   ts,
-	}
+	authOnce.Do(func() {
+		auth = &AuthService{
+			repo: userRepo,
+			ts:   ts,
+		}
+	})
+
+	return auth
 }
 
-func (a *AuthService) Login(ctx context.Context, email, password string) (string, error) {
+func ResetAuth() {
+	authOnce = sync.Once{}
+}
+
+func (a *AuthService) Login(ctx context.Context, email, password string) (token string, err error) {
 	user, err := a.repo.GetByEmail(ctx, email)
 	if err != nil {
-		return "", err
+		if errors.Is(err, domain.ErrDataNotFound) {
+			return "", domain.ErrDataNotFound
+		}
+		return "", domain.ErrInternal
 	}
 
 	err = util.ComparePassword(password, user.Password)
 	if err != nil {
-		return "", errors.New("invalid credentials")
-		// return "", domain.ErrInvalidCredentials
+		return "", domain.ErrInvalidCredentials
 	}
-	
 
-	token, err := a.ts.CreateToken(user)
+	token, err = a.ts.CreateToken(user)
 	if err != nil {
-		return "", err
+		return "", domain.ErrTokenCreationFailed
 	}
 
 	return token, nil

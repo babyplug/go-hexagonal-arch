@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/babyplug/go-clean-arch/internal/core/port"
+	"clean-arch/internal/core/port"
 )
 
 func StartUserCountLogger(repo port.UserRepository, stopCh <-chan struct{}) {

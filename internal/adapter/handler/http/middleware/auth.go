@@ -3,7 +3,8 @@ package middleware
 import (
 	"strings"
 
-	"github.com/babyplug/go-clean-arch/internal/core/port"
+	"clean-arch/internal/core/port"
+
 	"github.com/gin-gonic/gin"
 )
 

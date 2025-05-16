@@ -4,9 +4,10 @@ import (
 	"errors"
 	"time"
 
-	"github.com/babyplug/go-clean-arch/internal/adapter/config"
-	"github.com/babyplug/go-clean-arch/internal/core/domain"
-	"github.com/babyplug/go-clean-arch/internal/core/port"
+	"clean-arch/internal/adapter/config"
+	"clean-arch/internal/core/domain"
+	"clean-arch/internal/core/port"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )
